@@ -12,12 +12,11 @@
     <!-- Jquery -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-
-    <title>로그인!</title>
+    <title>회원 가입</title>
 </head>
 <body style="background: #FAFAFA">
 <div style="display: flex; flex-direction: column; align-items: center; width: 100%">
-    <div style="padding: 20px ;text-align: center;border: solid 1px rgba(219, 219, 219, 1); width: 300px; height: 300px; margin-top: 30px; background: white">
+    <div style="padding: 20px ;text-align: center;border: solid 1px rgba(219, 219, 219, 1); width: 300px; height: 400px; margin-top: 30px; background: white">
         <div style="padding-bottom: 10px"><img style="width: 150px"
                                                src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png">
         </div>
@@ -30,15 +29,26 @@
         </div>
         <div>
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" style="font-size: 14px; height: 24px" id="input_password"
-                       placeholder="name@example.com">
+                <input type="text" class="form-control" style="font-size: 14px; height: 24px" id="input_name" placeholder="name@example.com">
+                <label for="input_name" style="font-size: 14px;padding: 4px 10px">이름</label>
+            </div>
+        </div>
+        <div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" style="font-size: 14px; height: 24px" id="input_nickname" placeholder="name@example.com">
+                <label for="input_nickname" style="font-size: 14px;padding: 4px 10px">닉네임</label>
+            </div>
+        </div>
+        <div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" style="font-size: 14px; height: 24px" id="input_password" placeholder="name@example.com">
                 <label for="input_password" style="font-size: 14px;padding: 4px 10px">비밀번호</label>
             </div>
         </div>
-        <button id="login_button" class="btn btn-primary" style="width: 100%"> 로그인 </button>
+        <button id="join_button"  class="btn btn-primary" style="width: 100%"> 가입</button>
     </div>
     <div style="padding: 20px ;text-align: center;border: solid 1px rgba(219, 219, 219, 1); width: 300px; height: 70px; margin-top: 30px; background: white">
-        <div> 계정이 없으신가요? <a href="/user/join">가입하기</a></div>
+        <div> 계정이 있으신가요? <a href="login">로그인</a></div>
     </div>
 </div>
 
@@ -46,22 +56,28 @@
 
 <!-- Optional JavaScript; choose one of the two! -->
 <script>
-    $('#login_button').click(function () {
+    $('#join_button').click(function () {
 
         let email = $('#input_email').val();
         let password = $('#input_password').val();
+        let nickname = $('#input_nickname').val();
+        let name = $('#input_name').val();
+
+        console.log(email, password, nickname, name);
 
         $.ajax({
-            url: "/user/login",
+            url: "/user/join",
             data: {
                 email : email,
-                password : password
+                password : password,
+                nickname : nickname,
+                name : name
             },
             method: "POST",
             success: function (data) {
                 console.log("성공");
-                alert("로그인 성공");
-                location.replace('/main');
+                alert("회원가입 성공했습니다. 로그인해주세요.");
+                location.replace('/user/login');
 
             },
             error: function (request, status, error) {
@@ -73,6 +89,10 @@
         });
     });
 </script>
+
+
+
+
 <!-- Option 1: Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
