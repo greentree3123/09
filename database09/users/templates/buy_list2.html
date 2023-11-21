@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>profile</title>
+</head>
+<style>
+    .box {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .search-box-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px;
+    }
+
+
+    .text-box {
+        width: 100px;
+        margin-right: 10px;
+        background-color: white;
+        border-radius: 5px;
+        text-align: center; /* Center the text horizontally */
+        padding: 5px;
+    }
+
+    .form-control {
+        display: flex;
+        align-items: center;
+    }
+
+    .text-box.complete_box {
+        background-color: white;
+        color: black;
+        border: 2px solid gray; /* Add border style */
+    }
+
+</style>
+<body>
+    <div style="display: flex; flex-direction: row; justify-content: left; align-items: center; margin: 20px">
+        <img src="Group.png" alt="예시사진" class="ex_img"></span>구매 내역</div>
+    </div>
+    <div style="border-top: solid 2px rgba(50,50,50,0.1); width: 100%"></div>
+
+    <div class="search-box-container">
+        <div class="d-flex align-items-center">
+            <div class="form-control">
+                <div class="text-box feed_box" style="background-color: lightgray; color: black;">
+                    <span>공구 진행중</span>
+                </div>
+                <div class="text-box complete_box" style="background-color: white; color: black;">
+                    <span>공구 완료</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
