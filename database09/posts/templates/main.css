@@ -150,3 +150,19 @@ input {
 .human{
     margin-right: 10px;
 }
+
+/* js */
+#like{
+    fill: #ddd;
+}
+
+#like.active{
+    fill: red;
+}
+
+.array_botton.active{
+    background: #474747;
+    border-radius: 15px;
+    border: 1px solid #474747;
+    color: white;
+}
