@@ -6,7 +6,13 @@ html,body{
 }
 
 .header{
-    margin:0 8%;
+    margin:20px;
+}
+input{
+    background-image : url('icon-search.svg');
+    background-repeat :no-repeat;
+    background-position: 3px center;
+    padding-inline-start: 25px;
 }
 .box {
     width: 30px;
@@ -50,6 +56,7 @@ html,body{
 
 hr{
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .f {
@@ -71,6 +78,7 @@ input {
     border-radius: 10px;
     margin:10px 20px;
     padding:15px;
+    display: flex;
 }
 
 .ex_img{
@@ -94,7 +102,10 @@ input {
     align-items: center;
     text-align: center;
 }
-
+.ex_img,
+.num{
+    margin-right: 10px;
+}
 .item_box{
     position: relative;
     width:170px;
@@ -118,13 +129,24 @@ input {
 }
 
 .per_price{
-    color:#2288FF; 
+    color:#2288FF;
+    font-weight: 550;
+    font-size: 10px; 
+    text-align: center;
 }
 #est_price{
     text-decoration: underline;
 }
 
-.humun_part {
-    display: flex; /* Flexbox를 사용하여 자식 요소를 가로로 나열합니다. */
-    align-items: center; /* 세로 가운데 정렬합니다. */
+.contain2{
+    display: flex;
+    padding: 10px 10px 0px 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+.human_part{
+    display: flex;
+}
+.human{
+    margin-right: 10px;
 }
