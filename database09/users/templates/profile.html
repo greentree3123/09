@@ -20,14 +20,25 @@
     .profile {
         display: flex;
         align-items: center;
+        position: relative;
+        z-index: 1;
     }
 
     .human {
         width: 80px;
         height: 80px;
         margin: 50px 10%;
+        
     }
 
+    .profile .plus {
+        width: 20px;
+        height: 20px;
+        margin: 10px 30% -20%;
+        position: absolute;
+        z-index: 2;
+    }
+    
     .ex_img {
         margin-left: 5px; /* Adjusted margin to move the image to the left */
     }
@@ -36,6 +47,7 @@
 <body>
     <div class="profile">
         <img src="Vector.png" alt="프로필" class="human">
+        <img src="Plus.png" alt="사진변경" class="plus">
         <div class="container">
             자유로운 다람쥐 <br> 저는 도토리를 좋아해요
         </div>
