@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>profile</title>
+</head>
+
+<style>
+    .container {
+        background-color: gainsboro;
+        width: 200px;
+        height: 82px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile {
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .human {
+        width: 80px;
+        height: 80px;
+        margin: 50px 10%;
+        
+    }
+
+    .profile .plus {
+        width: 20px;
+        height: 20px;
+        margin: 10px 30% -20%;
+        position: absolute;
+        z-index: 2;
+    }
+    
+    .ex_img {
+        margin-left: 5px; /* Adjusted margin to move the image to the left */
+    }
+</style>
+
+<body>
+    <div class="profile">
+        <img src="Vector.png" alt="프로필" class="human">
+        <img src="Plus.png" alt="사진변경" class="plus">
+        <div class="container">
+            자유로운 다람쥐 <br> 저는 도토리를 좋아해요
+        </div>
+    </div>
+    <div style="border-top: solid 2px #797979; width: 100%;">
+
+        <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; margin: 20px">
+            <img src="Payment Check.png" alt="예시사진" class="ex_img"><p>&nbsp 판매 내역</p>
+        </div>
+
+        <hr align="center" style="border: solid 1px #797979; width: 100%;">
+
+        <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; margin: 20px">
+            <img src="Heart Border.png" alt="예시사진" class="ex_img"><p>&nbsp 찜한 상품</p>
+        </div>
+        <hr align="center" style="border: solid 1px #797979; width: 100%;">
+        <div style="display: flex; flex-direction: row;  justify-content: center; align-items: center; margin: 20px">
+            <img src="Group.png" alt="예시사진" class="ex_img" ><p>&nbsp구매 내역</p>
+        </div>
+        <hr align="center" style="border: solid 1px #797979; width: 100%;">
+</body>
+</html>
