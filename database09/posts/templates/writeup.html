@@ -6,10 +6,16 @@
     <title>Writeup_Page</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        html{
+            margin: 0;
+            height: 100%;
+        }
         body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            align-items: center;
+            height: 100%;
         }
 
         h3 {
@@ -30,8 +36,8 @@
         form {
             display: flex;
             flex-direction: column;
-            width: 280px;
-            margin-left: 20px;
+            width: 340px;
+            margin:auto;
         }
 
         .image-container img {
@@ -66,7 +72,8 @@
             margin: 10px 0;
             padding: 8px;
             border-radius: 8px;
-            width: 110%;
+            width: 100%;
+            height: 50px;
             border-width: 1.5px;
             box-sizing: border-box;
         }
@@ -92,7 +99,6 @@
             cursor: pointer;
             border: none;
             width: 100%;
-            margin-left: 13px;
             margin-top:30px;
         }
 
@@ -111,9 +117,10 @@
         글쓰기
     </h3>
     <div class="underline"></div>
-    <form method="post" action="서버의url" id="login-form">
+    <form method="post" action="" id="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
       <div class="image-container">
-        <img src="free-icon-camera.png" alt="camera">
       </div>
       <div class="input-container required-field">
         <div class="note">는 수정불가 항목입니다.</div>
