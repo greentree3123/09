@@ -118,7 +118,7 @@
         글쓰기
     </h3>
     <div class="underline"></div>
-    <form method="post" action="" id="post-form" enctype="multipart/form-data">
+    <form method="POST" action="" id="post-form" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3">
       <div class="image-container">
@@ -128,21 +128,22 @@
       </div>
       <div class="input-container required-field">
         <input type="text" name="productName" placeholder=" 품목명"
-        value="{{ form.title.value|default_if_none:'' }}">
+        value="{{ posts.title }}">
       </div>
       <div class="input-container required-field">
         <input type="price" name="totalPrice" placeholder=" 총 가격"
-        value="{{ form.sales.value|default_if_none:'' }}">
+        value="{{ posts.sales }}">
       </div>
       <div class="input-container required-field">
         <input type="place" name="Place" placeholder=" 거래장소 (ex.서울시 성북구 안암동 1가(안암동x))"
-        value="{{ form.place.value|default_if_none:'' }}">
+        value="{{ posts.place }}">
       </div>
         <input type="account" name="userAccount" placeholder="계좌번호를 입력해주십시오"
-        value="{{ form.account.value|default_if_none:'' }}">
+        value="{{ posts.account }}">
         <input type="content" name="content" placeholder="내용을 입력해주십시오"
-        value="{{ form.content.value|default_if_none:'' }}">
-        <input type="submit" value="작성 완료">
+        value="{{ posts.content }}">
+        <button id="backBtn" type="submit">작성하기</button>
+        <!-- <input type="submit" value="작성 완료"> -->
     </form>
 </body>
 </html>
