@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # User=get_user_model()
 # Create your models here.
 class Post(models.Model):
