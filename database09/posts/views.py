@@ -5,15 +5,33 @@ from .forms import PostForm
 # Create your views here.
 def post_create_view(request):
     if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            new_post = form.save()
-            return redirect('main', post_id=new_post.id)  # post_id를 메인 뷰에 전달
-    else:
-        form = PostForm()
+        title = request.POST.get('productName')
+        sales= request.POST.get('totalPrice')
+        place= request.POST.get('Place')
+        account=request.POST.get('userAccount')
+        content = request.POST.get('content')
+        
 
-    return render(request, 'writeup.html', {'form': form})
+        Post.objects.create(
+            title = title,
+            sales=sales,
+            place=place,
+            account=account,
+            content = content,
+    
+        )
+
+        return redirect('posts:main')
+    # if request.method == 'POST':
+    #     form = PostForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         form.save()
+    #         new_post = form.save()
+    #         return redirect('main', post_id=new_post.id)  # post_id를 메인 뷰에 전달
+    # else:
+    #     form = PostForm()
+
+    return render(request, 'writeup.html')
 
 def main_view(request, post_id=None):
     posts = Post.objects.all()
