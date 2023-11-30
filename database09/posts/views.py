@@ -7,6 +7,7 @@ def post_create_view(request):
     if request.method == 'POST':
         title = request.POST.get('productName')
         sales= request.POST.get('totalPrice')
+        number=request.POST.get('totalNumber')
         place= request.POST.get('Place')
         account=request.POST.get('userAccount')
         content = request.POST.get('content')
@@ -15,6 +16,7 @@ def post_create_view(request):
         Post.objects.create(
             title = title,
             sales=sales,
+            number=number,
             place=place,
             account=account,
             content = content,

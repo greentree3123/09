@@ -7,6 +7,7 @@ class Post(models.Model):
     image = models.ImageField(verbose_name='이미지',null=True,blank=True)
     title = models.CharField(verbose_name='상품명',max_length=20)
     sales = models.IntegerField(verbose_name='가격')
+    number = models.IntegerField(verbose_name='수량',default=0)
     place = models.CharField(verbose_name='거래장소',max_length=20)
     account = models.CharField(verbose_name='계좌',max_length=20)
     content = models.TextField(verbose_name='내용',)
