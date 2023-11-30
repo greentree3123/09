@@ -30,8 +30,13 @@
    
         {% for post in posts %}
         <div class="item">
-            <img src="..\static\icons\Plus.png" alt="이미지" class="ex_img">
-            <div class="num">수량 <br>{{ post.quantity }}</div>
+            <a href="{% url 'posts:post-detail' id=post.id %}">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="이미지" class="ex_img">
+                {% else %}
+                    <p>No Image</p>
+                {% endif %}
+            <div class="num">수량 <br>{{ post.number }}</div>
             <div class="contain3">
                 <div class="item_box">
                     <div class="heart" id="like">
@@ -49,6 +54,7 @@
                         <div class="part">8/10</div>
                     </div>
                 </div>
+            </a>
             </div>
         </div>
         {% endfor %} 
