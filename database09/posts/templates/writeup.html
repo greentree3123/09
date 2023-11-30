@@ -122,6 +122,7 @@
         {% csrf_token %}
         <div class="mb-3">
       <div class="image-container">
+        <input type="file" name="image">
       </div>
       <div class="input-container required-field">
         <div class="note">는 수정불가 항목입니다.</div>
@@ -133,6 +134,10 @@
       <div class="input-container required-field">
         <input type="price" name="totalPrice" placeholder=" 총 가격"
         value="{{ posts.sales }}">
+      </div>
+      <div class="input-container required-field">
+        <input type="text" name="totalNumber" placeholder=" 수량"
+        value="{{ posts.number }}">
       </div>
       <div class="input-container required-field">
         <input type="place" name="Place" placeholder=" 거래장소 (ex.서울시 성북구 안암동 1가(안암동x))"
