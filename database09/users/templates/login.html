@@ -83,13 +83,14 @@
     <div class="image-container">
         <img src="../../static/img/logo.jpg" alt="logo">
     </div>
-      <form method="post" action="서버의url" id="login-form">
-          <input type="text" name="Email" placeholder="이메일">
-          <input type="password" name="userPassword" placeholder="비밀번호">
-          <input type="submit" value="로그인">
+      <form method="POST" id="login-form">
+        {% csrf_token %}
+          <input type="text" name="email" placeholder="이메일">
+          <input type="password" name="password" placeholder="비밀번호">
+          <button id="btn" type="submit">로그인</button>
       </form>
       <div class="line"></div>
-      <a href="#" id="signup-link">
+      <a href="{% url 'users:signup' %}" id="signup-link">
         <i class="fas fa-user"> 회원가입하러 가기</i>
       </a>
   </div>
