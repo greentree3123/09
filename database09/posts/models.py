@@ -17,3 +17,8 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # 작성자 필드: 글을 작성한 사용자와의 관계를 나타내는 필드
     #writer = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, blank=True)
+
+class Comment(models.Model):
+  post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True) #post로부터 외래키를 가져옴. 게시글 삭제시 댓글도 삭제(on_delete = models.CASCADE)
+  body = models.TextField()
+  date = models.DateTimeField(auto_now_add=True)
