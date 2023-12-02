@@ -77,8 +77,24 @@
             </div>
             <div id="comment">
                 <span class="material-symbols-outlined">comment</span>
-                <span>0 comment</span>
-            </div>  
-            <hr>                
+                <span>{{ comments|length }} comment{% if comments|length != 1 %}{% endif %}</span>
+            </div>
+            <hr> 
+            {% block content %}
+            <div class="container">
+                댓글 : 
+                {% for comment in comments %}
+                {{comment.body}} - {{comment.date}}
+                <br>
+                {% endfor %}
+                <br><br>
+                댓글 달기 : 
+                <form method="POST">
+                {% csrf_token %}
+                <input name="body" type="text" value="">
+                <input class="btn btn-primary" type="submit" value="저장">
+            </form>
+            </div>
+            {% endblock %}              
     </body>
 </html>
