@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import Post
 from .forms import PostForm, PostSearchForm
 from django.db.models import Q
@@ -13,28 +13,23 @@ def post_create_view(request):
         place= request.POST.get('Place')
         account=request.POST.get('userAccount')
         content = request.POST.get('content')
-        
+        image = request.FILES.get('image')
 
-        Post.objects.create(
-            title = title,
+        post = Post(
+            title=title,
             sales=sales,
             number=number,
             place=place,
             account=account,
-            content = content,
-    
+            content=content,
         )
+        try:
+            post.image = request.FILES['image']
+        except KeyError:
+            post.image = None 
 
+        post.save()
         return redirect('posts:main')
-    # if request.method == 'POST':
-    #     form = PostForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         form.save()
-    #         new_post = form.save()
-    #         return redirect('main', post_id=new_post.id)  # post_id를 메인 뷰에 전달
-    # else:
-    #     form = PostForm()
-
     return render(request, 'writeup.html')
 
 def main_view(request, post_id=None):
@@ -52,8 +47,9 @@ def main_view(request, post_id=None):
     search_query = request.GET.get('search')
     if search_query:
         posts = posts.filter(Q(title__icontains=search_query) | Q(content__icontains=search_query))
-
-    return render(request, 'main.html', {'posts': posts, 'sort': sort, 'search_query': search_query})
+    
+    posts = Post.objects.all()
+    return render(request, 'main.html', {'posts': posts, 'new_post_id': post_id, 'sort': sort, 'search_query': search_query})
 
 def post_list_view(request):
     sort = request.GET.get('sort')
@@ -81,3 +77,44 @@ class SearchFormView(FormView):
         context['object_list'] = post_list
 
         return render(self.request, self.template_name, context)
+    
+def post_detail_view(request, id):
+    try:
+        post = Post.objects.get(id=id)
+    except Post.DoesNotExist:
+        return redirect('main')
+
+    context = {
+        'post': post,
+        'id': id,  
+    }
+    return render(request, 'myPost.html', context)
+
+def post_update_view(request,id):
+    post = get_object_or_404(Post, id=id)
+
+    if request.method == 'GET':
+        context = {
+            'post': post
+        }
+        return render(request, 'writeup.html', context)
+    else:
+        new_image = request.FILES.get('image')
+        title = request.POST.get('title')
+        sales = request.POST.get('sales')
+        place = request.POST.get('place')
+        account = request.POST.get('account')
+        content = request.POST.get('content')
+
+        if new_image:
+            post.image.delete()
+            post.image = new_image
+
+        post.title = title
+        post.sales = sales
+        post.place = place
+        post.account = account
+        post.content = content
+        post.save()
+        return redirect('posts:post-detail', post.id)
+

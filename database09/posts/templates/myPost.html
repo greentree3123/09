@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
     <head>
         <!-- Required meta tags -->
@@ -9,7 +10,7 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <!-- Google Icon -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-        <link href="post_detail.css" rel="stylesheet">
+        <link href="{% static 'css/post_detail.css' %}" rel="stylesheet">
         <style></style>
     </head>
     <body>
@@ -28,7 +29,12 @@
             }
         </script>
             <div id="image_container">
-                <img src="https://www.elysian.co.kr/upload/facility/20210914172146290.jpg" />
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="이미지" />
+                {% else %}
+                <!-- Provide a default image or a placeholder if 'post.image' is None -->
+                    <img src="{% static 'path/to/default/image.jpg' %}" alt="Default 이미지" />
+                {% endif %}
             </div>
             <div class="container">
                 <div id="user_profile">
@@ -41,8 +47,10 @@
                 <hr>
                 <div id="title-container">
                     <div id="title">
-                        <h1>스키</h1>
+                        <h1>{{ post.title }}</h1>
+                        <a href="{% url "posts:post-update" id=post.id %}">
                         <span class="material-symbols-outlined">edit</span>
+                    </a>
                     </div>
                     <span>10분전</span>
                 </div><br/>
@@ -52,13 +60,13 @@
                         수량 (인당)  
                         <span class="highlight">3개</span> <br/>
                         총 가격  
-                        <span class="highlight">300000원</span> <br/>
+                        <span class="highlight">{{ post.sales }}</span> <br/>
                         거래장소 
-                        <span class="highlight">성신여대입구역</span> <br/>
+                        <span class="highlight">{{ post.place }}</span> <br/>
                         </strong>
                     </p>
                     <p>
-                        스키시즌권 가져왔습니다^^
+                        {{ post.content }}
                     </p>
                     <div id="join_info">
                         <span class="material-symbols-outlined">person</span>
