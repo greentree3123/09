@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Post
+from .models import Comment, Post
 
 # Create your views here.
 def post_create_view(request):
@@ -36,12 +36,19 @@ def main_view(request, post_id=None):
 def post_detail_view(request, id):
     try:
         post = Post.objects.get(id=id)
+        comments = Comment.objects.filter(post=post)
+
+        if request.method == 'POST':
+            body = request.POST.get('body')
+            Comment.objects.create(post=post, body=body)
+             
     except Post.DoesNotExist:
         return redirect('main')
 
     context = {
         'post': post,
         'id': id,  
+        'comments': comments,
     }
     return render(request, 'myPost.html', context)
 
