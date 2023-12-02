@@ -10,20 +10,27 @@
     <title>main</title>
 </head>
 <body>
+    <div class="box">
+        <img src="{% static 'icons/bear.jpg' %}" alt="프로필" class="profile">
+    </div>
     <header class="header">
+        
         <div class="f">
-
-            <input type="text" name="input" placeholder="검색어를 입력해주세요">
-
-            <div class="box">
-                <img src="{% static 'icons/bear.jpg' %}" alt="프로필" class="profile">
-            </div>
-        </div>
-        <div class="chart">
-            <button class="array_botton" id="array_botton1">최신순</button>
-            <button class="array_botton">인기순</button>
-            <button class="array_botton" >가격 낮은 순</button>
-        </div>
+           
+            <form method="GET" action="{% url 'posts:search' %}" class="search-container">
+                
+                <div class="search-input">
+                    <input type="text" name="search" placeholder="검색어를 입력해주세요" value="{{ search_query }}">
+                </div>
+                <div class="chart">
+                    <select name='sort' id='sort'>
+                        <option value="price" {% if sort == 'price' %}selected{% endif %}>가격 낮은순</option>
+                        <option value="recently" {% if sort == 'recently' %}selected{% endif %}>최신순</option>
+                        <option value="likes" {% if sort == 'likes' %}selected{% endif %}>인기순</option>
+                    </select>
+                    <button class="btn btn-primary" type="submit" value="">정렬</button>
+                </div>
+            </form>
         
     </header>
     <hr>

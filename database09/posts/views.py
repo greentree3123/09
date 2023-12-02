@@ -1,5 +1,8 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Post
+from .models import Comment, Post
+from .forms import PostForm, PostSearchForm
+from django.db.models import Q
+from django.views.generic.edit import FormView
 
 # Create your views here.
 def post_create_view(request):
@@ -30,18 +33,40 @@ def post_create_view(request):
     return render(request, 'writeup.html')
 
 def main_view(request, post_id=None):
+    sort = request.GET.get('sort')
+
+    if sort == 'price':
+        posts = Post.objects.all().order_by('sales')  # 가격 낮은 순
+    elif sort == 'recently':
+        posts = Post.objects.all().order_by('-created_at')  # 최신순
+    elif sort == 'likes':
+        posts = Post.objects.all().order_by('-likes')  # 인기순
+    else:
+        posts = Post.objects.all()
+
+    search_query = request.GET.get('search')
+    if search_query:
+        posts = posts.filter(Q(title__icontains=search_query) | Q(content__icontains=search_query))
+    
     posts = Post.objects.all()
-    return render(request, 'main.html', {'posts': posts, 'new_post_id': post_id})
+    return render(request, 'main.html', {'posts': posts, 'new_post_id': post_id, 'sort': sort, 'search_query': search_query})
     
 def post_detail_view(request, id):
     try:
         post = Post.objects.get(id=id)
+        comments = Comment.objects.filter(post=post)
+
+        if request.method == 'POST':
+            body = request.POST.get('body')
+            Comment.objects.create(post=post, body=body)
+             
     except Post.DoesNotExist:
         return redirect('main')
 
     context = {
         'post': post,
         'id': id,  
+        'comments': comments,
     }
     return render(request, 'myPost.html', context)
 
@@ -72,3 +97,29 @@ def post_update_view(request,id):
         post.content = content
         post.save()
         return redirect('posts:post-detail', post.id)
+    
+def post_list_view(request):
+    sort = request.GET.get('sort')
+
+    if sort == 'sales':
+        post_list = Post.objects.all().order_by('sales_count')  
+   
+    else:
+        posts = Post.sales.all()
+
+    return render(request, 'main.html', {'posts': posts, 'sort': sort})
+
+class SearchFormView(FormView):
+    form_class = PostSearchForm
+    template_name = 'main.html'
+
+    def form_valid(self, form):
+        searchWord = form.cleaned_data['search_word']
+        post_list = Post.objects.filter(Q(title__icontains=searchWord) | Q(description__icontains=searchWord) | Q(content__icontains=searchWord)).distinct()
+
+        context = {}
+        context['form'] = form
+        context['search_term'] = searchWord
+        context['object_list'] = post_list
+
+        return render(self.request, self.template_name, context)
