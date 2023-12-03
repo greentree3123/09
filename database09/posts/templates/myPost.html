@@ -40,17 +40,25 @@
                 <div id="user_profile">
                     <div>
                         <span class="material-symbols-outlined">account_circle</span>
-                        <span>자유로운다람쥐6581</span>
+                        <span>{{ post.auth.nickname }}</span>
                     </div>
-                    <button style="background-color: #D9D9D9; width: 80px; height: 30px; border: none; color: #000; cursor: pointer; font-size: 10px;">공구 확정</button>
+                    {% if user.is_authenticated %}
+                        {% if user == post.auth %}
+                            <button style="background-color: #D9D9D9; width: 80px; height: 30px; border: none; color: #000; cursor: pointer; font-size: 10px;">공구 확정</button>
+                        {% endif %}
+                    {% endif %}
                 </div>
                 <hr>
                 <div id="title-container">
                     <div id="title">
                         <h1>{{ post.title }}</h1>
-                        <a href="{% url "posts:post-update" id=post.id %}">
-                        <span class="material-symbols-outlined">edit</span>
-                    </a>
+                        {% if user.is_authenticated %}
+                            {% if user == post.auth %}
+                                <a href="{% url "posts:post-update" id=post.id %}">
+                                <span class="material-symbols-outlined">edit</span>
+                                </a>
+                            {% endif %}
+                        {% endif %}
                     </div>
                     <span>10분전</span>
                 </div><br/>
@@ -58,7 +66,7 @@
                     <p>
                         <strong>
                         수량 (인당)  
-                        <span class="highlight">3개</span> <br/>
+                        <span class="highlight">{{ post.number }}</span> <br/>
                         총 가격  
                         <span class="highlight">{{ post.sales }}</span> <br/>
                         거래장소 
