@@ -17,7 +17,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # 작성자 필드: 글을 작성한 사용자와의 관계를 나타내는 필드
     auth = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, blank=True)
-    likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)  # 추천(좋아요) 기능 추가
+    likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)  # 참여할래요
 
     def total_likes(self):
         return self.likes.count()  # 게시글의 총 추천 수 계산
