@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load tz %}
 <html>
     <head>
         <!-- Required meta tags -->
@@ -103,7 +104,7 @@
             <div class="container">
                 댓글 : 
                 {% for comment in comments %}
-                {{comment.body}} - {{comment.date}}
+                {{comment.body}} -  {{ comment.date|timezone:"Asia/Seoul" }}
                 <br>
                 {% endfor %}
                 <br><br>

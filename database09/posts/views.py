@@ -6,6 +6,7 @@ from .forms import PostForm, PostSearchForm
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView
+from django.utils import timezone
 
 # Create your views here.
 @login_required
@@ -60,28 +61,29 @@ def post_detail_view(request, id):
         comments = Comment.objects.filter(post=post)
 
         if request.method == 'POST':
-            new_image = request.FILES.get('image')
-            title = request.POST.get('productName')
-            sales = request.POST.get('totalPrice')
-            number = request.POST.get('totalNumber')
-            place = request.POST.get('Place')
-            account = request.POST.get('userAccount')
-            content = request.POST.get('content')
+            if 'body' in request.POST:
+                body = request.POST.get('body')
+                Comment.objects.create(post=post, body=body)
+            else:
+                new_image = request.FILES.get('image')
+                title = request.POST.get('productName')
+                sales = request.POST.get('totalPrice')
+                number = request.POST.get('totalNumber')
+                place = request.POST.get('Place')
+                account = request.POST.get('userAccount')
+                content = request.POST.get('content')
 
-            if new_image:
-                post.image.delete()
-                post.image = new_image
+                if new_image:
+                    post.image.delete()
+                    post.image = new_image
 
-            post.title = title
-            post.sales = sales
-            post.number = number
-            post.place = place
-            post.account = account
-            post.content = content
-            post.save()
-
-            body = request.POST.get('body')
-            Comment.objects.create(post=post, body=body)
+                post.title = title
+                post.sales = sales
+                post.number = number
+                post.place = place
+                post.account = account
+                post.content = content
+                post.save()
 
     except Post.DoesNotExist:
         return redirect('main')
@@ -92,6 +94,7 @@ def post_detail_view(request, id):
         'comments': comments,
     }
     return render(request, 'myPost.html', context)
+
 
 @login_required
 def post_update_view(request,id):
