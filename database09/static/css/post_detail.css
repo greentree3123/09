@@ -19,7 +19,7 @@ body {
     justify-content: center;
     align-items: center;
 }
-.btn-primary {
+.like-button {
     background-color: #2288FF;
     color: #fff;
 }

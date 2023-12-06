@@ -15,19 +15,20 @@
         <style></style>
     </head>
     <body>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script>
-            function toggleButton() {
-                var button = document.querySelector('.btn');
-                if (button.classList.contains('btn-secondary')) {
-                    button.classList.remove('btn-secondary');
-                    button.classList.add('btn-primary');
-                    button.textContent = '참여할래요!';
-                } else {
-                    button.classList.remove('btn-primary');
-                    button.classList.add('btn-secondary');
-                    button.textContent = '취소할래요!';
-                }
-            }
+            // function toggleButton() {
+            //     var button = document.querySelector('.btn');
+            //     if (button.classList.contains('btn-secondary')) {
+            //         button.classList.remove('btn-secondary');
+            //         button.classList.add('like-button');
+            //         button.textContent = '참여할래요!';
+            //     } else {
+            //         button.classList.remove('like-button');
+            //         button.classList.add('btn-secondary');
+            //         button.textContent = '취소할래요!';
+            //     }
+            // }
         </script>
             <div id="image_container">
                 {% if post.image %}
@@ -79,9 +80,19 @@
                     </p>
                     <div id="join_info">
                         <span class="material-symbols-outlined">person</span>
-                        <span>28/30</span>
+                        <span>{{ post.total_likes }}/{{ post.number }}</span>
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="toggleButton()">참여할래요!</button>
+                    <form action="{% url 'posts:likes' post.pk %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="like-button" name="like_action"style="background-color: #2288FF; color: white;">
+                            {% if post.user_likes %}  
+                                참여 취소
+                            {% else %}
+                                참여할래요!
+                            {% endif %}
+                        </button>
+                    </form>
+                    
                 </div>
             </div>
             <div id="comment">

@@ -1,3 +1,5 @@
+from audioop import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Comment, Post
 from .forms import PostForm, PostSearchForm
@@ -150,3 +152,39 @@ class SearchFormView(FormView):
         context['object_list'] = post_list
 
         return render(self.request, self.template_name, context)
+    
+
+
+def likes(request, article_pk):
+    if request.user.is_authenticated:
+        article = get_object_or_404(Post, pk=article_pk)
+
+        if article.likes.filter(pk=request.user.pk).exists():
+            article.likes.remove(request.user)
+        else:
+            article.likes.add(request.user)
+
+        # Check if the user was on the detail page or list page
+        if 'post-detail' in request.META.get('HTTP_REFERER', ''):
+            return redirect('post:post-detail', id=article_pk)
+        elif 'main' in request.META.get('HTTP_REFERER', ''):
+            return redirect('posts:main')
+
+    return redirect('posts:post-detail', id=article_pk)
+
+def your_view(request, post_id):
+    # 가격 계산 로직 (예시로 나누기를 수행)
+    post = Post.objects.get(id=id)
+    total_likes = post.total_likes
+    total_sales = post.sales
+
+    # 예시: 가격을 사람 수로 나누기
+    calculate_price_per_person = total_sales / total_likes if total_likes != 0 else 0
+
+    # 템플릿에 전달할 컨텍스트
+    context = {
+        'post': post,
+        'calculate_price_per_person': calculate_price_per_person,
+    }
+
+    return render(request, 'main.html', context)
