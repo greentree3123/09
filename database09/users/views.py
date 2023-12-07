@@ -42,4 +42,6 @@ def signup_view(request):
         return redirect('users:login')
     return render(request, 'signup.html')
 
+def profile(request):
+    return render(request, 'profile.html')
 
