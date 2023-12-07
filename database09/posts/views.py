@@ -15,6 +15,7 @@ def post_create_view(request):
         title = request.POST.get('productName')
         sales= request.POST.get('totalPrice')
         number=request.POST.get('totalNumber')
+        people=request.POST.get('totalPeople')
         place= request.POST.get('Place')
         account=request.POST.get('userAccount')
         content = request.POST.get('content')
@@ -24,6 +25,7 @@ def post_create_view(request):
             title=title,
             sales=sales,
             number=number,
+            people=people,
             place=place,
             account=account,
             content=content,

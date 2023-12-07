@@ -80,7 +80,7 @@
                     </p>
                     <div id="join_info">
                         <span class="material-symbols-outlined">person</span>
-                        <span>{{ post.total_likes }}/{{ post.number }}</span>
+                        <span>{{ post.total_likes }}/{{ post.people }}</span>
                     </div>
                     <form action="{% url 'posts:likes' post.pk %}" method="POST">
                         {% csrf_token %}
