@@ -1,9 +1,12 @@
+from audioop import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Comment, Post
 from .forms import PostForm, PostSearchForm
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView
+from django.utils import timezone
 
 # Create your views here.
 @login_required
@@ -58,28 +61,29 @@ def post_detail_view(request, id):
         comments = Comment.objects.filter(post=post)
 
         if request.method == 'POST':
-            new_image = request.FILES.get('image')
-            title = request.POST.get('productName')
-            sales = request.POST.get('totalPrice')
-            number = request.POST.get('totalNumber')
-            place = request.POST.get('Place')
-            account = request.POST.get('userAccount')
-            content = request.POST.get('content')
+            if 'body' in request.POST:
+                body = request.POST.get('body')
+                Comment.objects.create(post=post, body=body)
+            else:
+                new_image = request.FILES.get('image')
+                title = request.POST.get('productName')
+                sales = request.POST.get('totalPrice')
+                number = request.POST.get('totalNumber')
+                place = request.POST.get('Place')
+                account = request.POST.get('userAccount')
+                content = request.POST.get('content')
 
-            if new_image:
-                post.image.delete()
-                post.image = new_image
+                if new_image:
+                    post.image.delete()
+                    post.image = new_image
 
-            post.title = title
-            post.sales = sales
-            post.number = number
-            post.place = place
-            post.account = account
-            post.content = content
-            post.save()
-
-            body = request.POST.get('body')
-            Comment.objects.create(post=post, body=body)
+                post.title = title
+                post.sales = sales
+                post.number = number
+                post.place = place
+                post.account = account
+                post.content = content
+                post.save()
 
     except Post.DoesNotExist:
         return redirect('main')
@@ -90,6 +94,7 @@ def post_detail_view(request, id):
         'comments': comments,
     }
     return render(request, 'myPost.html', context)
+
 
 @login_required
 def post_update_view(request,id):
@@ -165,3 +170,37 @@ def comment_delete_view(request, comment_id):
         return redirect('posts:myPost')
     
     return redirect('posts:myPost')
+
+def likes(request, article_pk):
+    if request.user.is_authenticated:
+        article = get_object_or_404(Post, pk=article_pk)
+
+        if article.likes.filter(pk=request.user.pk).exists():
+            article.likes.remove(request.user)
+        else:
+            article.likes.add(request.user)
+
+        # Check if the user was on the detail page or list page
+        if 'post-detail' in request.META.get('HTTP_REFERER', ''):
+            return redirect('post:post-detail', id=article_pk)
+        elif 'main' in request.META.get('HTTP_REFERER', ''):
+            return redirect('posts:main')
+
+    return redirect('posts:post-detail', id=article_pk)
+
+def your_view(request, post_id):
+    # 가격 계산 로직 (예시로 나누기를 수행)
+    post = Post.objects.get(id=id)
+    total_likes = post.total_likes
+    total_sales = post.sales
+
+    # 예시: 가격을 사람 수로 나누기
+    calculate_price_per_person = total_sales / total_likes if total_likes != 0 else 0
+
+    # 템플릿에 전달할 컨텍스트
+    context = {
+        'post': post,
+        'calculate_price_per_person': calculate_price_per_person,
+    }
+
+    return render(request, 'main.html', context)

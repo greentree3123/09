@@ -51,17 +51,18 @@
                     </div>
                         <div class="item_name">{{ post.title }}</div>
                 </div>
+            </a>
                 <div class="contain2">
                     <div class="per_price">
                         <div>1인당 예상 금액</div>
-                        <div id="est_price">{{ post.sales }}</div>
+                        <div id="est_price">44</div>
                     </div>
                     <div  class="human_part">
                         <img src="{% static 'icons/Vector.svg' %}" alt="사람" class="human">
-                        <div class="part">8/10</div>
+                        <div class="part">{{ post.total_likes }}/{{ post.number }}</div>
                     </div>
                 </div>
-            </a>
+            
             </div>
         </div>
         {% endfor %} 
