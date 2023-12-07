@@ -152,8 +152,24 @@ class SearchFormView(FormView):
         context['object_list'] = post_list
 
         return render(self.request, self.template_name, context)
-    
 
+def myPost_view(request):
+    return render(request, 'myPost.html')
+
+@login_required
+def comment_delete_view(request, comment_id):
+    
+    comment = get_object_or_404(Comment, pk=comment_id)
+    
+    if request.user != comment.post.auth and not request.user.is_staff:
+        messages.warning(request, '권한 없음')
+        return redirect('posts:myPost')
+    
+    if request.method == "POST" and request.user == comment.post.auth:
+        comment.delete()
+        return redirect('posts:myPost')
+    
+    return redirect('posts:myPost')
 
 def likes(request, article_pk):
     if request.user.is_authenticated:

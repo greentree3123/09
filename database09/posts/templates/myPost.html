@@ -105,6 +105,9 @@
                 댓글 : 
                 {% for comment in comments %}
                 {{comment.body}} -  {{ comment.date|timezone:"Asia/Seoul" }}
+                {% if user.is_authenticated and user == comment.post.auth %}
+                    <a href="{% url 'posts:comment-delete' comment.id %}">댓글 삭제</a>
+                {% endif %}
                 <br>
                 {% endfor %}
                 <br><br>
