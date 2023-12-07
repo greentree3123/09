@@ -55,9 +55,9 @@ def main_view(request, post_id=None):
         posts = posts.filter(Q(title__icontains=search_query) | Q(content__icontains=search_query))
     return render(request, 'main.html', {'posts': posts, 'new_post_id': post_id, 'sort': sort, 'search_query': search_query})
 
-def post_detail_view(request, id):
+def post_detail_view(request, article_pk):
     try:
-        post = Post.objects.get(id=id)
+        post = Post.objects.get(id=article_pk)
         comments = Comment.objects.filter(post=post)
 
         if request.method == 'POST':
@@ -90,15 +90,14 @@ def post_detail_view(request, id):
 
     context = {
         'post': post,
-        'id': id,
+        'article_pk': article_pk,
         'comments': comments,
     }
     return render(request, 'myPost.html', context)
 
-
 @login_required
-def post_update_view(request,id):
-    post = get_object_or_404(Post, id=id)
+def post_update_view(request,article_pk):
+    post = get_object_or_404(Post, id=article_pk)
 
     if request.method == 'GET':
         context = {
@@ -153,23 +152,18 @@ class SearchFormView(FormView):
 
         return render(self.request, self.template_name, context)
 
-def myPost_view(request):
-    return render(request, 'myPost.html')
-
 @login_required
 def comment_delete_view(request, comment_id):
-    
     comment = get_object_or_404(Comment, pk=comment_id)
-    
+
     if request.user != comment.post.auth and not request.user.is_staff:
-        messages.warning(request, '권한 없음')
-        return redirect('posts:myPost')
-    
+        return redirect('posts:post-detail', article_pk=comment.post.id)
+
     if request.method == "POST" and request.user == comment.post.auth:
         comment.delete()
-        return redirect('posts:myPost')
-    
-    return redirect('posts:myPost')
+        return redirect('posts:post-detail', article_pk=comment.post.id)
+
+    return redirect('posts:post-detail', article_pk=comment.post.id)
 
 def likes(request, article_pk):
     if request.user.is_authenticated:
@@ -182,11 +176,11 @@ def likes(request, article_pk):
 
         # Check if the user was on the detail page or list page
         if 'post-detail' in request.META.get('HTTP_REFERER', ''):
-            return redirect('post:post-detail', id=article_pk)
+            return redirect('post:post-detail', article_pk=article_pk)
         elif 'main' in request.META.get('HTTP_REFERER', ''):
             return redirect('posts:main')
 
-    return redirect('posts:post-detail', id=article_pk)
+    return redirect('posts:post-detail', article_pk=article_pk)
 
 def your_view(request, post_id):
     # 가격 계산 로직 (예시로 나누기를 수행)
