@@ -56,20 +56,20 @@
                         <h1>{{ post.title }}</h1>
                         {% if user.is_authenticated %}
                             {% if user == post.auth %}
-                                <a href="{% url "posts:post-update" id=post.id %}">
+                                <a href="{% url 'posts:post-update' id=post.id %}">
                                 <span class="material-symbols-outlined">edit</span>
                                 </a>
                             {% endif %}
                         {% endif %}
                     </div>
-                    <span>10분전</span>
+                    <span>{{ post.created_at|timezone:"Asia/Seoul" }}</span>
                 </div><br/>
                 <div id="detail_content">
                     <p>
                         <strong>
                         수량 (인당)  
                         <span class="highlight">{{ post.number }}</span> <br/>
-                        총 가격  
+                        가격 (인당)
                         <span class="highlight">{{ post.sales }}</span> <br/>
                         거래장소 
                         <span class="highlight">{{ post.place }}</span> <br/>
@@ -84,15 +84,9 @@
                     </div>
                     <form action="{% url 'posts:likes' post.pk %}" method="POST">
                         {% csrf_token %}
-                        <button type="submit" class="like-button" name="like_action"style="background-color: #2288FF; color: white;">
-                            {% if post.user_likes %}  
-                                참여 취소
-                            {% else %}
-                                참여할래요!
-                            {% endif %}
-                        </button>
+                        <button type="submit" class="like-button" id='btn1' name="like_action" style="background-color: #2288FF; color: white;">참여할래요!</button>
+                        <button type="submit" class="like-button" id='btn2' name="like_action"style="background-color: #C1C1C1; color: white;">취소할래요!</button>
                     </form>
-                    
                 </div>
             </div>
             <div id="comment">
