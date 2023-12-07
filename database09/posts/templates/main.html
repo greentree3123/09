@@ -39,7 +39,7 @@
    
         {% for post in posts %}
         <div class="item">
-            <a href="{% url 'posts:post-detail' id=post.id %}">
+            <a href="{% url 'posts:post-detail' article_pk=post.id %}">
                 {% if post.image %}
                     <img src="{{ post.image.url }}" alt="이미지" class="ex_img">
                 {% else %}
@@ -57,7 +57,7 @@
                 <div class="contain2">
                     <div class="per_price">
                         <div>1인당 예상 금액</div>
-                        <div id="est_price">44</div>
+                        <div id="est_price">{{ post.sales }}</div>
                     </div>
                     <div  class="human_part">
                         <img src="{% static 'icons/Vector.svg' %}" alt="사람" class="human">
