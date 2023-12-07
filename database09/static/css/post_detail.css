@@ -81,8 +81,8 @@ body {
     padding: 10px;
 }
 #comment {
-    margin-left: 35px;
-    margin-right: 35px;
+    margin-left: 25px;
+    margin-right: 25px;
     margin-top: 20px;
     margin-bottom: 10px;
     display: flex;
@@ -114,4 +114,19 @@ hr {
 }
 #comment_user_proflie .material-symbols-outlined {
     margin-right: 5px;
+}
+
+.comment_div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.comment_content {
+    display: flex;
+    align-items: center;
+}
+
+.comment_container{
+    padding:0 25px;
 }
