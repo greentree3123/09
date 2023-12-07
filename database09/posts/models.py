@@ -8,6 +8,7 @@ class Post(models.Model):
     title = models.CharField(verbose_name='상품명',max_length=20,null=True,blank=True)
     sales = models.IntegerField(verbose_name='가격',default=0,null=True,blank=True)
     number = models.IntegerField(verbose_name='수량',default=0,null=True,blank=True)
+    people=models.IntegerField(verbose_name='인원수',default=0,null=True,blank=True)
     place = models.CharField(verbose_name='거래장소',max_length=20,null=True,blank=True)
     account = models.CharField(verbose_name='계좌',max_length=20,null=True,blank=True)
     content = models.TextField(verbose_name='내용',null=True,blank=True)
